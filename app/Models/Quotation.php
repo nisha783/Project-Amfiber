@@ -7,4 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 class Quotation extends Model
 {
     //
+    protected $fillable = [
+        'customer_id',
+        'width',
+        'height',
+        'specification',
+        'truss',
+        'shed',
+        'piller',
+        'thickness',
+        'price',
+        'total_amount'
+    ];
+
+
+    public function party()
+    {
+        return $this->belongsTo(Party::class, 'customer_id', 'id');
+    }
+
+    public function quotation_items()
+    {
+        return $this->hasMany(QuotationItem::class);
+    }
 }
