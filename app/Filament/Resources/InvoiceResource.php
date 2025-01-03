@@ -23,7 +23,22 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('customer_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('total_amount')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('discount')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('advance')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\Toggle::make('status')
+                    ->required(),
+                Forms\Components\TextInput::make('type')
+                    ->required(),
             ]);
     }
 
@@ -31,7 +46,30 @@ class InvoiceResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('customer_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('total_amount')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('discount')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('advance')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('status')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('type')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

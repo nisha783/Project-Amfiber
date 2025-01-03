@@ -23,7 +23,12 @@ class QuotationResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('customer_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('total_amount')
+                    ->required()
+                    ->numeric(),
             ]);
     }
 
@@ -31,7 +36,20 @@ class QuotationResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('customer_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('total_amount')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
