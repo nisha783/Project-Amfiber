@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained('parties')->onDelete('cascade');
+            $table->double('total_amount');
+            $table->double('discount');
+            $table->double('advance');
+            $table->boolean('status')->default(false);
+            $table->enum('type', ['sale', 'purchase'])->default('sale');
             $table->timestamps();
         });
     }

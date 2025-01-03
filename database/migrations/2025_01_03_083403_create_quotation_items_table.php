@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('quotation_items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('quotation_id')->constrained('quotations')->onDelete('cascade');
+            $table->string('width');
+            $table->string('height');
+            $table->string('specification')->nullable();
+            $table->string('truss')->nullable();
+            $table->string('shed')->nullable();
+            $table->string('piller')->nullable();
+            $table->string('thickness')->nullable();
+            $table->string('price');
+            $table->string('total');
             $table->timestamps();
         });
     }

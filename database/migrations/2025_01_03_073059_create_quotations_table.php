@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained('parties')->onDelete('cascade');
+            $table->double('total_amount');
             $table->timestamps();
         });
     }
