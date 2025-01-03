@@ -34,8 +34,15 @@ class PartyResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->tel(),
                 Forms\Components\TextInput::make('address'),
-                Forms\Components\TextInput::make('type')
-                    ->required(),
+                Forms\Components\Select::make('type')
+                ->label('Type') // You can add a label
+                ->options([
+                    'vendor' => 'Vendor',  // Option 1: Vendor
+                    'customer' => 'Customer' // Option 2: Customer
+                ])
+                ->required()  // Makes the field required
+                ->default('customer')  // Set a default value if needed (optional)
+                ->columnSpan(1), // 
             ]);
     }
 
@@ -65,6 +72,7 @@ class PartyResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

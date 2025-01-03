@@ -17,14 +17,21 @@ class PlaiResource extends Resource
 {
     protected static ?string $model = Plai::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
-    protected static ?string $navigationLabel = 'Plai';
+    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
+    protected static ?string $navigationLabel = 'Plai';
+       protected static ?int $navigationSort= 6;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('price')
+                    ->required()
+                    ->numeric()
+                    ->prefix('$'),
             ]);
     }
 
@@ -32,12 +39,25 @@ class PlaiResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('price')
+                    ->money()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

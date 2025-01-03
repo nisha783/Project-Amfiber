@@ -5,7 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Filament\Resources\InvoiceResource\RelationManagers;
 use App\Models\Invoice;
+use App\Models\Party;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -18,6 +20,7 @@ class InvoiceResource extends Resource
     protected static ?string $model = Invoice::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationLabel = 'Invoice';
 
     protected static ?string $navigationGroup = 'Invoice Management';
     protected static ?int $navigationSort= 4;
@@ -25,9 +28,11 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('customer_id')
-                    ->required()
-                    ->numeric(),
+                Select::make('customer_id')
+                ->label('Customer')  
+                ->required()        
+                ->options(Party::all()->pluck('name', 'id'))  
+                ->searchable() ,
                 Forms\Components\TextInput::make('total_amount')
                     ->required()
                     ->numeric(),

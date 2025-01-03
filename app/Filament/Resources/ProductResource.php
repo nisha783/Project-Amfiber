@@ -18,7 +18,6 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
-    protected static ?string $navigationLabel = 'Product';
 
     protected static ?string $navigationGroup = 'Product Management';
     protected static ?int $navigationSort= 2;
@@ -42,7 +41,9 @@ class ProductResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                ->url(fn ($record) => asset('storage/' . $record->image))  
+                ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -51,11 +52,16 @@ class ProductResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
+                    ])
+                    ->filters([
+                        //
+                    ])
+                    ->actions([
+                        Tables\Actions\DeleteAction::make(),
+                        Tables\Actions\EditAction::make(),
+                    ])
             ->actions([
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

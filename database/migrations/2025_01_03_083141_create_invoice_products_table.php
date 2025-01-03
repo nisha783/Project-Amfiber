@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('invoice_products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->foreignId('invoice_id')->constrained()->onDelete('cascade');
             $table->foreignId('plai_id')->constrained()->onDelete('cascade');
             $table->integer('qty');
             $table->double('width_in_feet');
