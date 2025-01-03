@@ -12,7 +12,7 @@ class Invoice extends Model
 
     public function party()
     {
-        return $this->belongsTo(Party::class, 'customer_id');
+        return $this->belongsTo(Party::class);
     }
 
     public function invoice_products()

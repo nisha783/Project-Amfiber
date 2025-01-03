@@ -17,8 +17,10 @@ class InvoiceResource extends Resource
 {
     protected static ?string $model = Invoice::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
+    protected static ?string $navigationGroup = 'Invoice Management';
+    protected static ?int $navigationSort= 4;
     public static function form(Form $form): Form
     {
         return $form
@@ -35,10 +37,10 @@ class InvoiceResource extends Resource
                 Forms\Components\TextInput::make('advance')
                     ->required()
                     ->numeric(),
-                Forms\Components\Toggle::make('status')
+                    Forms\Components\TextInput::make('type')
                     ->required(),
-                Forms\Components\TextInput::make('type')
-                    ->required(),
+                    Forms\Components\Toggle::make('status')
+                        ->required(),
             ]);
     }
 

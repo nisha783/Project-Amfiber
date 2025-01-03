@@ -17,7 +17,13 @@ class PartyResource extends Resource
 {
     protected static ?string $model = Party::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group'; 
+    protected static ?string $modelLable = '';
+    protected static ?string $navigationLabel = 'Party';
+    protected static ?string $slug= '';
+
+    protected static ?string $navigationGroup = 'Party Management';
+    protected static ?int $navigationSort= 1;
 
     public static function form(Form $form): Form
     {
