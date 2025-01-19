@@ -38,11 +38,11 @@ class CreateInvoice extends Page
     protected function getFormSchema(): array
     {
         return [
-           Select ::make('customer_id')
-                ->label('Customer')
-                ->options(Party::all()->pluck('name', 'id'))  // Assuming Party is the model for customers
-                ->required()
-                ->searchable(),
+            Select::make('customer_id')
+            ->label('Customer')
+            ->options(Party::all()->pluck('name', 'id')) // Fetch customer names
+            ->required()
+            ->searchable(),
 
             Repeater::make('invoice_products')
                 ->label('Invoice Products')

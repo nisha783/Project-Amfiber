@@ -2,60 +2,128 @@
     <form wire:submit.prevent="saveInvoice">
         <div class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                 <!-- Customer Selector -->
-                <x-filament::form-field :label="__('Customer')" wire:model="customer_id">
-                    <x-filament::select 
-                        name="customer_id" 
-                        options="{{ Party::all()->pluck('name', 'id') }}" 
-                        wire:model="customer_id"
-                    />
-                </x-filament::form-field>
+                <div>
+                    <label for="customer_id" class="block text-sm font-medium text-gray-700">
+                        {{ __('Customer') }}
+                    </label>
+                    <select id="customer_id" wire:model="customer_id" name="customer_id"
+                        class="form-control mt-1 block w-full text-gray-800">
+                        <option value="">{{ __('Select Customer') }}</option>
+                        @foreach(App\Models\Party::all() as $party)
+                            <option value="{{ $party->id }}">{{ $party->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('customer_id')
+                    <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                </div>
 
                 <!-- Product & Plai Fields -->
-                <x-filament::repeater wire:model="invoice_products">
-                    <x-filament::repeater-item>
-                        <x-filament::form-field :label="__('Product')">
-                            <x-filament::select wire:model="product_id" :options="Product::all()->pluck('name', 'id')" />
-                        </x-filament::form-field>
+                <div wire:sortable="updateOrder">
+                    <div>
+                        <label for="product_id" class="block text-sm font-medium text-gray-700">
+                            {{ __('Product') }}
+                        </label>
+                        <select id="product_id" wire:model="product_id" name="product_id"
+                            class="form-control mt-1 block w-full text-gray-800">
+                            <option value="">{{ __('Select Product') }}</option>
+                            @foreach(App\Models\Product::all() as $product)
+                                <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('product_id')
+                        <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                    </div>
 
-                        <x-filament::form-field :label="__('Plai')">
-                            <x-filament::select wire:model="plai_id" :options="Plai::all()->pluck('name', 'id')" />
-                        </x-filament::form-field>
+                    <div>
+                        <label for="plai_id" class="block text-sm font-medium text-gray-700">
+                            {{ __('Plai') }}
+                        </label>
+                        <select id="plai_id" wire:model="plai_id" name="plai_id"
+                            class="form-control mt-1 block w-full text-gray-800">
+                            <option value="">{{ __('Select Plai') }}</option>
+                            @foreach(App\Models\Plai::all() as $plai)
+                                <option value="{{ $plai->id }}">{{ $plai->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('plai_id')
+                        <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                    </div>
+                </div>
 
-                        <!-- Width and Height -->
-                        <x-filament::form-field :label="__('Width (Feet & Inches)')">
-                            <x-filament::input wire:model="width_in_feet" type="number" min="0" class="w-16" placeholder="Feet" />
-                            <x-filament::input wire:model="width_in_inches" type="number" min="0" class="w-16" placeholder="Inches" />
-                        </x-filament::form-field>
+                <!-- Width and Height -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">
+                        {{ __('Width (Feet & Inches)') }}
+                    </label>
+                    <div class="grid grid-cols-2 gap-4 mt-1">
+                        <input type="number" wire:model="width_in_feet" class="form-control text-gray-800"
+                            placeholder="Feet" min="0">
+                        <input type="number" wire:model="width_in_inches" class="form-control text-gray-800"
+                            placeholder="Inches" min="0">
+                    </div>
+                    @error('width_in_feet')
+                    <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                    @error('width_in_inches')
+                    <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                </div>
 
-                        <x-filament::form-field :label="__('Height (Feet & Inches)')">
-                            <x-filament::input wire:model="height_in_feet" type="number" min="0" class="w-16" placeholder="Feet" />
-                            <x-filament::input wire:model="height_in_inches" type="number" min="0" class="w-16" placeholder="Inches" />
-                        </x-filament::form-field>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">
+                        {{ __('Height (Feet & Inches)') }}
+                    </label>
+                    <div class="grid grid-cols-2 gap-4 mt-1">
+                        <input type="number" wire:model="height_in_feet" class="form-control text-gray-800"
+                            placeholder="Feet" min="0">
+                        <input type="number" wire:model="height_in_inches" class="form-control text-gray-800"
+                            placeholder="Inches" min="0">
+                    </div>
+                    @error('height_in_feet')
+                    <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                    @error('height_in_inches')
+                    <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                </div>
 
-                        <!-- Quantity & Price -->
-                        <x-filament::form-field :label="__('Quantity')">
-                            <x-filament::input wire:model="qty" type="number" min="1" class="w-full" />
-                        </x-filament::form-field>
-
-                        <x-filament::form-field :label="__('Price')">
-                            <x-filament::input wire:model="price" type="number" min="0" class="w-full" />
-                        </x-filament::form-field>
-                    </x-filament::repeater-item>
-                </x-filament::repeater>
+                <!-- Quantity -->
+                <div>
+                    <label for="qty" class="block text-sm font-medium text-gray-700">
+                        {{ __('Quantity') }}
+                    </label>
+                    <input type="number" wire:model="qty" id="qty" min="1"
+                        class="form-control mt-1 block w-full text-gray-800">
+                </div>
+                <!-- Price -->
+                <div>
+                    <label for="price" class="block text-sm font-medium text-gray-700">
+                        {{ __('Price') }}
+                    </label>
+                    <input type="number" wire:model="price" id="price" min="0"
+                        class="form-control mt-1 block w-full text-gray-800">
+                </div>
 
                 <!-- Discount -->
-                <x-filament::form-field :label="__('Discount')">
-                    <x-filament::input wire:model="discount" type="number" min="0" max="100" />
-                </x-filament::form-field>
+                <div>
+                    <label for="discount" class="block text-sm font-medium text-gray-700">
+                        {{ __('Discount') }}
+                    </label>
+                    <input type="number" wire:model="discount" id="discount" min="0" max="100"
+                        class="form-control mt-1 block w-full text-gray-800">
+                </div>
 
                 <!-- Advance -->
-                <x-filament::form-field :label="__('Advance Payment')">
-                    <x-filament::input wire:model="advance" type="number" min="0" />
-                </x-filament::form-field>
+                <div>
+                    <label for="advance" class="block text-sm font-medium text-gray-700">
+                        {{ __('Advance Payment') }}
+                    </label>
+                    <input type="number" wire:model="advance" id="advance" min="0"
+                        class="form-control mt-1 block w-full text-gray-800">
+                </div>
             </div>
         </div>
 
-        <x-filament::button type="submit" class="mt-4">Create Invoice</x-filament::button>
+        <button type="submit" class="mt-4 px-4 py-2 bg-yellow-500 text-white rounded">
+            {{ __('Create Invoice') }}
+        </button>
     </form>
 </x-filament::page>
